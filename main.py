@@ -2,9 +2,10 @@ from aiogram import Bot, Dispatcher
 import asyncio
 import logging
 from dotenv import load_dotenv
-from config import TOKEN
+from config import TOKEN, init_db, DB_FILE
 from captcha import start_router
 from choose_category import category_router
+import os
 
 load_dotenv()
 
@@ -15,6 +16,8 @@ dp.include_router(category_router)
 logging.basicConfig(level=logging.INFO)
     
 async def main():
+    if not os.path.exists(DB_FILE):
+        await init_db()
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
