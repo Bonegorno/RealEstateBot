@@ -6,9 +6,12 @@ import aiosqlite
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
-
+PORT = int(os.getenv('PORT', 8000))
+RAILWAY_PUBLIC_URL = os.getenv('RAILWAY_STATIC_URL')
+WEBHOOK_PATH = "/webhook"
 DB_FILE = "users.db"
-
+WEBHOOK_URL = f"{RAILWAY_PUBLIC_URL}{WEBHOOK_PATH}" if RAILWAY_PUBLIC_URL else None
+    
 async def init_db():
     async with aiosqlite.connect(DB_FILE) as db:
         await db.execute('''
